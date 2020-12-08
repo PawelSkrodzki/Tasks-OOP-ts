@@ -1,3 +1,3 @@
-import mainOfTask2 from './task2';
+import mainOfTask3 from './task3';
 
-mainOfTask2();
+mainOfTask3();

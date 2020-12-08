@@ -20,7 +20,7 @@ class App implements IApp {
     this.users = [];
   }
 
-  addUserToApp(user: IUser) {
+  addUserToApp(user: IUser): void {
     if (!(user instanceof User)) {
       throw new Error(`${user} is not instance of class User`);
     }
@@ -32,11 +32,7 @@ class App implements IApp {
     this.users.push(user);
   }
 
-  changeUserAccessLevel(superUser: IUser, user: IUser, newAccessLevel: AccessLevel) {
-    if (!(user instanceof User) && !(superUser instanceof User)) {
-      throw new Error(`${user} is not instanceof class ${User}`);
-    }
-
+  changeUserAccessLevel(superUser: IUser, user: IUser, newAccessLevel: AccessLevel): void {
     if (!isUserExistInAppList(superUser, this.users) && !isUserExistInAppList(user, this.users)) {
       throw new Error(`${superUser} does not exist in users list`);
     }
@@ -45,7 +41,7 @@ class App implements IApp {
       throw new Error('SuperUser has to be ADMIN level');
     }
 
-    const upperNewAccessLevel = newAccessLevel.toUpperCase();
+    const upperNewAccessLevel = newAccessLevel;
     const isAccessLevelExistInPerms = Object.values(perms).includes(upperNewAccessLevel);
 
     if (!isAccessLevelExistInPerms) {
@@ -56,12 +52,10 @@ class App implements IApp {
       throw new Error(`This User has already accessLevel: ${upperNewAccessLevel}`);
     }
 
-    let userAccessLevel: string = user.accessLevel;
-
-    userAccessLevel = upperNewAccessLevel;
+    user.accessLevel = upperNewAccessLevel;
   }
 
-  changeUserPassword(superUser: IUser, user: IUser, newPassword: string) {
+  changeUserPassword(superUser: IUser, user: IUser, newPassword: string): void {
     if (!(user instanceof User) && !(superUser instanceof User)) {
       throw new Error(`${user} is not instanceof class ${User}`);
     }
@@ -71,7 +65,7 @@ class App implements IApp {
     }
 
     if (!(superUser.accessLevel === 'ADMIN')) {
-      throw new Error(`${superUser} must be admin lvl`); // user$ must be admin
+      throw new Error(`${superUser} must be admin lvl`);
     }
 
     if (newPassword === user.password) {

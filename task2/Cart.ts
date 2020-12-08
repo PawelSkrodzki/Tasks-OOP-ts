@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { validateString, throwErrorIsClassIsNotSameInstance } from './validation';
+import { isStringIsEmpty } from './validation';
 import { isElementExistInArray, findWrapperFunction } from './utils';
 import { Product, IProduct } from './Product';
 
@@ -10,7 +10,7 @@ type sumType = {
 
 interface ICart {
   id: string;
-  items: [];
+  items: IProduct[];
   discountCodes: string[];
   selectedCode: string;
   sum: sumType;
@@ -18,7 +18,7 @@ interface ICart {
 
 class Cart implements ICart {
   public id: string;
-  public items: [];
+  public items: IProduct[];
   public discountCodes: string[];
   public selectedCode: string;
   public sum: sumType;
@@ -58,7 +58,7 @@ class Cart implements ICart {
   }
 
   addDiscountCode(code: string): void {
-    validateString(code);
+    isStringIsEmpty(code);
 
     if (isElementExistInArray(code, this.discountCodes)) {
       throw new Error('Code does not exist');
@@ -78,8 +78,8 @@ class Cart implements ICart {
 
     if (this.selectedCode !== '') {
       const codeNumbers = /\d{2}$/;
-      const getCodeNumbers: number = this.selectedCode.match(codeNumbers);
-      const priceWithDiscount = totals.price - (totals.price * getCodeNumbers) / 100;
+      const getCodeNumbers = this.selectedCode.match(codeNumbers);
+      const priceWithDiscount = totals.price - (totals.price * getCodeNumbers) / 100; // Tu mamy zagwostkę
       totals.price = priceWithDiscount;
       this.sum = totals;
       return `Cart was updated`;

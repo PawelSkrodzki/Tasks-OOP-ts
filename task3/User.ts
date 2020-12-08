@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import moment from 'moment';
-import IsStringEmpty from './validation';
+import IsStringIsEmpty from './validation';
 import { validatePassword, validateBirthday, validateEmail } from './utils';
 
 type GenderType = 'male' | 'female';
@@ -34,13 +34,13 @@ class User implements IUser {
     email: string,
     accessLevel: AccessLevel
   ) {
-    IsStringEmpty(name);
-    IsStringEmpty(surname);
+    IsStringIsEmpty(name);
+    IsStringIsEmpty(surname);
     validateBirthday(birthday);
     validatePassword(password);
-    IsStringEmpty(gender);
+    IsStringIsEmpty(gender);
     validateEmail(email);
-    IsStringEmpty(accessLevel);
+    IsStringIsEmpty(accessLevel);
 
     this.name = name;
     this.surname = surname;

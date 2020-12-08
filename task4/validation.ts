@@ -1,9 +1,9 @@
-import * as isJs from 'is_js';
-
 function isStringIsEmpty(input: string): void {
-  if (isJs.empty(input)) {
+  const isNotEmpty = input.length !== 0;
+
+  if (!isNotEmpty) {
     throw new Error(`string is empty`);
   }
 }
 
-export default isStringIsEmpty;
+export { isStringIsEmpty };

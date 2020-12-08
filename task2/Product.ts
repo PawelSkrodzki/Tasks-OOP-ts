@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { validateString, validateNumber, isPositiveNumber } from './validation';
+import { isStringIsEmpty, isNotNan, isPositiveNumber } from './validation';
 import { isElementExistInArray } from './utils';
 
 interface IProduct {
@@ -24,9 +24,9 @@ class Product implements IProduct {
   public quantity = 1;
 
   constructor(name: string, price: number, initialCategory: string) {
-    validateString(name);
-    validateNumber(price, 'price');
-    validateString(initialCategory);
+    isStringIsEmpty(name);
+    isNotNan(price);
+    isStringIsEmpty(initialCategory);
     this.name = name;
     this.price = price;
     this.initialCategory = initialCategory;
@@ -53,7 +53,7 @@ class Product implements IProduct {
   }
 
   addCategory(category: string): void {
-    validateString(category, 'category');
+    isStringIsEmpty(category);
     const smallCategories = this.categories.map((el) => el.toLowerCase());
     const smallCategory = category.toLowerCase();
     if (smallCategories.includes(smallCategory)) {
@@ -63,7 +63,7 @@ class Product implements IProduct {
   }
 
   removeCategory(category: string): void {
-    validateString(category, 'category');
+    isStringIsEmpty(category);
     const smallCategories = this.categories.map((el) => el.toLowerCase());
     const smallCategory = category.toLowerCase();
     const categoryIndex = smallCategories.indexOf(smallCategory);
@@ -73,21 +73,23 @@ class Product implements IProduct {
     this.categories.splice(categoryIndex, 1);
   }
 
-  update(key: string, value: number | string) {
-    validateString(key);
+  update(key: string, value: number | string): string | void {
+    isStringIsEmpty(key);
     if (isElementExistInArray(key, ['name', 'price'])) {
       throw new Error('this key is not able to change');
     }
     const smallKey = key.toLowerCase();
-    if (smallKey === 'price') {
-      validateNumber(value);
+    if (smallKey === 'price' && typeof value === 'number') {
+      isNotNan(value);
       let keyValue: number | string = this[smallKey];
       keyValue = value;
       return 'Product was updated';
+    } else if (value === 'string') {
+      isStringIsEmpty(value);
+      this[smallKey] = value;
+      return 'Product was updated';
     }
-    validateString(value);
-    this[smallKey] = value;
-    return 'Product was updated';
+    throw new Error('Product cannot be updated');
   }
 }
 

@@ -10,8 +10,8 @@ interface IBook {
 }
 
 class Book implements IBook {
-  public id = uuid();
-  public img = `https://picsum.photos/200/300`;
+  public id: string;
+  public img: string;
   public title: string;
   public author: string;
   public description: string;
@@ -20,6 +20,8 @@ class Book implements IBook {
     checkIsStringEmpty(title);
     checkIsStringEmpty(author);
     checkIsStringEmpty(description);
+    this.id = uuid();
+    this.img = `https://picsum.photos/200/300`;
     this.title = title;
     this.author = author;
     this.description = description;

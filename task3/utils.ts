@@ -2,7 +2,7 @@ import isJs from 'is_js';
 import moment from 'moment';
 import { IUser } from './User';
 
-function validatePassword(inputPassword: string) {
+function validatePassword(inputPassword: string): void {
   const pattern = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})');
 
   if (!pattern.test(inputPassword)) {
