@@ -1,6 +1,6 @@
 # AdressBook
 
-## Info about the task2
+## Info about the task4
 
 ```javascript
 // Stwórz strukturę danych związaną z książką adresową.
