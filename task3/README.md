@@ -1,6 +1,6 @@
 # User
 
-## Info about the task4
+## Info about the task3
 
 ```javascript
 // Stwórz strukturę danych związaną z użytkownikami
