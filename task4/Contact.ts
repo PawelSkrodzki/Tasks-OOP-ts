@@ -8,6 +8,9 @@ interface IContact {
   name: string;
   surname: string;
   email: string;
+  readData(): Object;
+  update(key: string, value: string): string;
+  contains(phrase: string): boolean;
 }
 
 class Contact implements IContact {
@@ -17,7 +20,7 @@ class Contact implements IContact {
   public surname: string;
   public email: string;
 
-  constructor(name, surname, email) {
+  constructor(name: string, surname: string, email: string) {
     isStringIsEmpty(name);
     isStringIsEmpty(surname);
     validateEmail(email);
@@ -28,7 +31,7 @@ class Contact implements IContact {
     this.email = email;
   }
 
-  readData() {
+  readData(): Object {
     return {
       id: this.id,
       date: this.date.toString(),

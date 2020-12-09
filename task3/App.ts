@@ -10,6 +10,9 @@ const perms = {
 interface IApp {
   id: string;
   users: IUser[];
+  addUserToApp(user: IUser): void;
+  changeUserAccessLevel(superUser: IUser, user: IUser, newAccessLevel: AccessLevel): void;
+  changeUserPassword(superUser: IUser, user: IUser, newPassword: string): void;
 }
 
 class App implements IApp {

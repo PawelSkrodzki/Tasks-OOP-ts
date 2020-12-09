@@ -14,6 +14,9 @@ interface ICart {
   discountCodes: string[];
   selectedCode: string;
   sum: sumType;
+  addProduct(product: IProduct): string;
+  deleteFromCart(product: IProduct): string;
+  sumCart(): string;
 }
 
 class Cart implements ICart {

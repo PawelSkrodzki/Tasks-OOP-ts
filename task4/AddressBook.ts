@@ -1,9 +1,25 @@
 import { isStringIsEmpty } from './validation';
 import { isElementExistInArray, removeFromArray } from './utils';
-import { Contact, IContact } from './Contact';
-import ContactGroup from './ContactGroup';
+import { IContact } from './Contact';
+import { IContactGroup } from './ContactGroup';
 
-class AddressBook {
+interface IAddressBook {
+  bookName: string;
+  list: IContact[];
+  groups: IContactGroup[];
+  findContact(phrase: string): IContact[];
+  addContact(contact: IContact): string;
+  removeContactFromBook(contact: IContact): string;
+  addGroup(group: IContactGroup): string | void;
+  addContactToGroup(group: IContactGroup, contact: IContact): string | void;
+  removeContactFromGroup(group: IContactGroup, contact: IContact): string | void;
+}
+
+class AddressBook implements IAddressBook {
+  public bookName: string;
+  public list: IContact[];
+  public groups: IContactGroup[];
+
   constructor(bookName) {
     isStringIsEmpty(bookName);
     this.bookName = bookName;
@@ -11,16 +27,15 @@ class AddressBook {
     this.groups = [];
   }
 
-  findContact(phrase) {
-    validateString(phrase);
+  findContact(phrase: string): IContact[] {
+    isStringIsEmpty(phrase);
 
     const foundContacts = this.list.filter((contact) => contact.contains(phrase));
 
     return foundContacts;
   }
 
-  addContact(contact) {
-    validateClass(contact, Contact);
+  addContact(contact: IContact): string {
     if (isElementExistInArray(contact, this.list)) {
       throw new Error('Contact exist so you can not add it');
     }
@@ -28,8 +43,7 @@ class AddressBook {
     return 'contact added';
   }
 
-  removeContactFromBook(contact) {
-    validateClass(contact, Contact);
+  removeContactFromBook(contact: IContact): string {
     if (!isElementExistInArray(contact, this.list)) {
       throw new Error('Contact does not exist, so you can not delete it');
     }
@@ -39,8 +53,7 @@ class AddressBook {
     return 'Contact deleted';
   }
 
-  addGroup(group) {
-    validateClass(group, ContactGroup);
+  addGroup(group: IContactGroup): string | void {
     if (isElementExistInArray(group, this.groups)) {
       throw new Error('Group exist so you can not add it');
     }
@@ -48,10 +61,7 @@ class AddressBook {
     return 'group was added';
   }
 
-  addContactToGroup(group, contact) {
-    validateClass(contact, Contact);
-    validateClass(group, ContactGroup);
-
+  addContactToGroup(group: IContactGroup, contact: IContact): string | void {
     if (!isElementExistInArray(contact, this.list)) {
       throw new Error('Contact doest not exist in adress book list so you cannot add it');
     }
@@ -63,8 +73,7 @@ class AddressBook {
     return 'contact added';
   }
 
-  removeContactFromGroup(group, contact) {
-    validateClass(contact, Contact);
+  removeContactFromGroup(group: IContactGroup, contact: IContact): string | void {
     if (!isElementExistInArray(contact, group.contacts)) {
       throw new Error('Contact does not exist in group, so you can not delete it');
     }
@@ -72,8 +81,7 @@ class AddressBook {
     return 'contact was removed';
   }
 
-  removeGroup(group) {
-    validateClass(group, ContactGroup);
+  removeGroup(group: IContactGroup): string | void {
     if (!isElementExistInArray(group, this.groups)) {
       throw new Error('Group does not exist, so you can not delete it');
     }

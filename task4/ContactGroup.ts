@@ -7,6 +7,10 @@ interface IContactGroup {
   id: string;
   groupName: string;
   contacts: IContact[];
+  addContact(contact: IContact): string;
+  removeContact(contact: IContact): string;
+  updateGroupName(name: string): void;
+  contains(phrase: string): boolean;
 }
 
 class ContactGroup implements IContactGroup {
@@ -49,4 +53,4 @@ class ContactGroup implements IContactGroup {
   }
 }
 
-export default ContactGroup;
+export { ContactGroup, IContactGroup };

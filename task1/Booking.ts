@@ -18,15 +18,19 @@ interface IBooking {
 }
 
 class Booking implements IBooking {
-  public id = uuid();
+  public id: string;
   public user: IUser;
-  public dateOfRent = new Date();
-  public dateOfExpectedReturn = new Date(Date.now() + sevenDays);
-  public fee: number = 0;
+  public dateOfRent: Date;
+  public dateOfExpectedReturn: Date;
+  public fee: number;
   public rentedBook: object = {};
 
   constructor(user: User) {
+    this.id = uuid();
     this.user = user;
+    this.dateOfRent = new Date();
+    this.dateOfExpectedReturn = new Date(Date.now() + sevenDays);
+    this.fee = 0;
   }
 
   addBook(book: IBook): void {

@@ -10,6 +10,11 @@ interface ILibrary {
   rentedBooks: IBook[];
   activeBookings: IBooking[];
   users: IUser[];
+  addUserToLibrary(user: IUser): string;
+  addBookToLibrary(book: IBook): string;
+  deleteBookFromLibrary(book: IBook): string;
+  rentBookForUser(user: User, book: Book): void;
+  returnBookForUser(user: User, book: Book): void;
 }
 
 class Library implements ILibrary {
@@ -21,6 +26,8 @@ class Library implements ILibrary {
   constructor(name: string) {
     this.name = name;
   }
+
+  //Czy robić to w ten sposób czy inicjalizację robić dopiero w construktorze
 
   addUserToLibrary(user: IUser): string {
     if (isElementExistInArray(user, this.users)) {

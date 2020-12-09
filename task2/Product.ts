@@ -11,6 +11,11 @@ interface IProduct {
   categories: string[];
   discount: number;
   quantity: number;
+  read(): string;
+  addDiscount(discount: number): string;
+  addCategory(category: string): void;
+  removeCategory(category: string): void;
+  update(key: string, value: number | string): string | void;
 }
 
 class Product implements IProduct {
@@ -34,7 +39,7 @@ class Product implements IProduct {
     this.categories = [initialCategory];
   }
 
-  read() {
+  read(): string {
     return `
           Id: ${this.id}
           Name: ${this.name}

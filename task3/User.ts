@@ -7,6 +7,7 @@ type GenderType = 'male' | 'female';
 type AccessLevel = 'USER' | 'ADMIN';
 
 interface IUser {
+  id: string;
   name: string;
   surname: string;
   birthday: string;
@@ -17,6 +18,7 @@ interface IUser {
 }
 
 class User implements IUser {
+  public id: string;
   public name: string;
   public surname: string;
   public birthday: string;
@@ -42,24 +44,29 @@ class User implements IUser {
     validateEmail(email);
     IsStringIsEmpty(accessLevel);
 
+    this.id = uuid();
     this.name = name;
     this.surname = surname;
-    this.birthday = birthday;
+    this.birthday = moment(birthday, 'DD/MM/YYYY').format('l');
     this.password = password;
     this.gender = gender;
     this.email = email;
     this.accessLevel = accessLevel;
 
-    Object.assign(this, {
-      id: uuid(),
-      name,
-      surname,
-      birthday: moment(birthday, 'DD/MM/YYYY').format('l'),
-      password,
-      gender,
-      email,
-      accessLevel: accessLevel.toUpperCase()
-    });
+    // Object.assign(this, {
+    //   id: uuid(),
+    //   name,
+    //   surname,
+    //   birthday: moment(birthday, 'DD/MM/YYYY').format('l'),
+    //   password,
+    //   gender,
+    //   email,
+    //   accessLevel: accessLevel.toUpperCase()
+    // });
+
+    // Przemo dlaczego to Object assign w tym przypadku nie działa?
+    // W js działało, ale w ts nie działa, bo krzyczy błedem
+    // Property 'x' has no initializer and is not definitely assigned in the constructor.
   }
 }
 
