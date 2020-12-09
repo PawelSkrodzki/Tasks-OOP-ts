@@ -1,6 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { isStringIsEmpty, isNotNan, isPositiveNumber } from './validation';
+import { isStringIsEmpty, isPositiveNumber, isPositiveNumberAndInRange } from './validation';
 import { isElementExistInArray } from './utils';
+
+type keyValues = 'name' | 'price';
+type avaliableTypes = number | string;
 
 interface IProduct {
   id: string;
@@ -11,11 +14,11 @@ interface IProduct {
   categories: string[];
   discount: number;
   quantity: number;
-  read(): string;
-  addDiscount(discount: number): string;
+  read(): void;
+  addDiscount(discount: number): void;
   addCategory(category: string): void;
   removeCategory(category: string): void;
-  update(key: string, value: number | string): string | void;
+  update(key: keyValues, value: avaliableTypes): void;
 }
 
 class Product implements IProduct {
@@ -30,7 +33,7 @@ class Product implements IProduct {
 
   constructor(name: string, price: number, initialCategory: string) {
     isStringIsEmpty(name);
-    isNotNan(price);
+    isPositiveNumber(price);
     isStringIsEmpty(initialCategory);
     this.name = name;
     this.price = price;
@@ -39,22 +42,21 @@ class Product implements IProduct {
     this.categories = [initialCategory];
   }
 
-  read(): string {
-    return `
+  read(): void {
+    console.log(`
           Id: ${this.id}
           Name: ${this.name}
           Price: ${this.price}
           Quantity: ${this.quantity}
           Discount: ${this.discount}
-          Category: ${this.initialCategory}`;
+          Category: ${this.initialCategory}`);
   }
 
-  addDiscount(discount: number): string {
-    isPositiveNumber(discount);
+  addDiscount(discount: number): void {
+    isPositiveNumberAndInRange(discount);
     this.discount = discount;
     const finalPrice = this.price - (discount * this.price) / 100;
     this.discountedPrice = finalPrice;
-    return `Product ID: ${this.id} now costs ${finalPrice}`;
   }
 
   addCategory(category: string): void {
@@ -78,21 +80,13 @@ class Product implements IProduct {
     this.categories.splice(categoryIndex, 1);
   }
 
-  update(key: string, value: number | string): string | void {
-    isStringIsEmpty(key);
-    if (isElementExistInArray(key, ['name', 'price'])) {
-      throw new Error('this key is not able to change');
-    }
-    const smallKey = key.toLowerCase();
-    if (smallKey === 'price' && typeof value === 'number') {
-      isNotNan(value);
-      let keyValue: number | string = this[smallKey];
-      keyValue = value;
-      return 'Product was updated';
-    } else if (value === 'string') {
+  update(key: keyValues, value: avaliableTypes): void {
+    if (key === 'price' && typeof value === 'number') {
+      isPositiveNumber(value);
+      this[key] = value;
+    } else if (value === 'string' && key === 'name') {
       isStringIsEmpty(value);
-      this[smallKey] = value;
-      return 'Product was updated';
+      this[key] = value;
     }
     throw new Error('Product cannot be updated');
   }

@@ -1,9 +1,8 @@
-interface IID {
+interface withId {
   id: string;
 }
 
-//Jak zrobić ogólny typ który nie bedzie nam się przypierdzielał d
-function isElementExistInArray<T extends IID>(element: T, array: T[]): boolean {
+function isElementExistInArray<T extends withId>(element: T, array: T[]): boolean {
   const results = array.filter(function (item) {
     return item.id === element.id;
   });

@@ -2,6 +2,8 @@ import { v4 as uuid } from 'uuid';
 import { isStringIsEmpty } from './validation';
 import { validateEmail, isKeyExistInArray } from './utils';
 
+type keyValues = 'name' | 'surname' | 'email';
+
 interface IContact {
   id: string;
   date: Date;
@@ -9,7 +11,7 @@ interface IContact {
   surname: string;
   email: string;
   readData(): Object;
-  update(key: string, value: string): string;
+  update(key: string, value: string): void;
   contains(phrase: string): boolean;
 }
 
@@ -41,18 +43,12 @@ class Contact implements IContact {
     };
   }
 
-  update(key: string, value: string): string {
-    isStringIsEmpty(key);
-    isStringIsEmpty(value);
-    if (isKeyExistInArray(key, ['name', 'surname', 'email'])) {
-      throw new Error('Key does not exist in avaliableKeys');
-    }
+  update(key: keyValues, value: string): void {
     const smallKey = key.toLowerCase();
     if (smallKey === 'email') {
       validateEmail(value);
     }
     this[smallKey] = value;
-    return 'Contact was updated';
   }
 
   contains(phrase: string): boolean {
@@ -60,10 +56,7 @@ class Contact implements IContact {
     const allValues = Object.values(this.readData());
     const lowerPhrase = phrase.toLowerCase();
 
-    if (allValues.some((el) => el.toLowerCase().includes(lowerPhrase))) {
-      return true;
-    }
-    return false;
+    return allValues.some((el) => el.toLowerCase().includes(lowerPhrase));
   }
 }
 

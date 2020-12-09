@@ -1,5 +1,5 @@
 import AddressBook from './AddressBook';
-import ContactGroup from './ContactGroup';
+import { ContactGroup } from './ContactGroup';
 import { Contact } from './Contact';
 
 function main() {

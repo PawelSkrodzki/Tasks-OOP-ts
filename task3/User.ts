@@ -52,21 +52,6 @@ class User implements IUser {
     this.gender = gender;
     this.email = email;
     this.accessLevel = accessLevel;
-
-    // Object.assign(this, {
-    //   id: uuid(),
-    //   name,
-    //   surname,
-    //   birthday: moment(birthday, 'DD/MM/YYYY').format('l'),
-    //   password,
-    //   gender,
-    //   email,
-    //   accessLevel: accessLevel.toUpperCase()
-    // });
-
-    // Przemo dlaczego to Object assign w tym przypadku nie działa?
-    // W js działało, ale w ts nie działa, bo krzyczy błedem
-    // Property 'x' has no initializer and is not definitely assigned in the constructor.
   }
 }
 

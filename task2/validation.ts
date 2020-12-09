@@ -1,10 +1,3 @@
-function isNotNan(value: number): void {
-  const inputIsNumber = !Number.isNaN(Number(value));
-  if (!inputIsNumber) {
-    throw new Error(`value should be number, but you passed ${value} which is type ${typeof value}`);
-  }
-}
-
 function isStringIsEmpty(value: string): void {
   const isInputEmpty = value.length !== 0;
 
@@ -19,4 +12,10 @@ function isPositiveNumber(value: number): void {
   }
 }
 
-export { isStringIsEmpty, isNotNan, isPositiveNumber };
+function isPositiveNumberAndInRange(value: number): void {
+  if (!(!Number.isNaN(Number(value)) && value > 0 && value <= 100)) {
+    throw new Error('Value should be positive number in range from 1 to 100');
+  }
+}
+
+export { isStringIsEmpty, isPositiveNumber, isPositiveNumberAndInRange };

@@ -38,9 +38,8 @@ class Cart implements ICart {
 
     const foundIndex = this.items.findIndex(findMyProduct);
 
-    const foundItem: IProduct = this.items[foundIndex];
-
     if (foundIndex !== -1) {
+      const foundItem = this.items[foundIndex];
       foundItem.quantity += 1;
     } else {
       this.items.push(product);
@@ -82,7 +81,14 @@ class Cart implements ICart {
     if (this.selectedCode !== '') {
       const codeNumbers = /\d{2}$/;
       const getCodeNumbers = this.selectedCode.match(codeNumbers);
-      const priceWithDiscount = totals.price - (totals.price * getCodeNumbers) / 100; // Tu mamy zagwostkę
+
+      if (getCodeNumbers === null) {
+        throw new Error('');
+      }
+
+      const [discountCode] = getCodeNumbers;
+
+      const priceWithDiscount = totals.price - (totals.price * Number(discountCode)) / 100;
       totals.price = priceWithDiscount;
       this.sum = totals;
       return `Cart was updated`;

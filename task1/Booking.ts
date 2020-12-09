@@ -12,9 +12,9 @@ interface IBooking {
   dateOfRent: Date;
   dateOfExpectedReturn: Date;
   fee: number;
-  rentedBook: object; // dlaczego Object jest interface Object? object z małej to są typy złożone, a my chcemy konkretnie Obiekt
+  rentedBook: IBook;
   addBook(book: IBook): void;
-  removeBook(book: IBook): string;
+  removeBook(book: IBook): void;
 }
 
 class Booking implements IBooking {
@@ -23,7 +23,7 @@ class Booking implements IBooking {
   public dateOfRent: Date;
   public dateOfExpectedReturn: Date;
   public fee: number;
-  public rentedBook: object = {};
+  public rentedBook: IBook = {} as IBook;
 
   constructor(user: User) {
     this.id = uuid();
@@ -37,7 +37,7 @@ class Booking implements IBooking {
     this.rentedBook = book;
   }
 
-  removeBook(book: IBook): string {
+  removeBook(book: IBook): void {
     const dateOfReturn: Date = new Date();
     if (this.rentedBook !== book) {
       throw new Error('Book does not exist in booking');
@@ -48,12 +48,10 @@ class Booking implements IBooking {
       const oneDayMilliseconds = 1000 * 3600 * 24;
       const differenceDays = Math.round(differenceInTime / oneDayMilliseconds);
       this.fee = differenceDays * penaltyPerDay;
-      this.rentedBook = {};
-      return `You have to pay ${Math.round(this.fee)}`;
+      this.rentedBook = {} as IBook;
+      console.log(`You have to pay ${Math.round(this.fee)}`);
     }
-    this.rentedBook = {};
-
-    return `Book has returned in time`;
+    this.rentedBook = {} as IBook;
   }
 }
 

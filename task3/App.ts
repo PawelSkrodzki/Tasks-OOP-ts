@@ -24,10 +24,6 @@ class App implements IApp {
   }
 
   addUserToApp(user: IUser): void {
-    if (!(user instanceof User)) {
-      throw new Error(`${user} is not instance of class User`);
-    }
-
     if (isUserExistInAppList(user, this.users)) {
       throw new Error(`${user} already exist in users list`);
     }
@@ -36,46 +32,42 @@ class App implements IApp {
   }
 
   changeUserAccessLevel(superUser: IUser, user: IUser, newAccessLevel: AccessLevel): void {
-    if (!isUserExistInAppList(superUser, this.users) && !isUserExistInAppList(user, this.users)) {
+    if (!isUserExistInAppList(superUser, this.users)) {
       throw new Error(`${superUser} does not exist in users list`);
+    }
+    if (!isUserExistInAppList(user, this.users)) {
+      throw new Error(`${user} does not exist in users list`);
     }
 
     if (!(superUser.accessLevel === 'ADMIN')) {
       throw new Error('SuperUser has to be ADMIN level');
     }
 
-    const upperNewAccessLevel = newAccessLevel;
-    const isAccessLevelExistInPerms = Object.values(perms).includes(upperNewAccessLevel);
-
-    if (!isAccessLevelExistInPerms) {
-      throw new Error('accessValue shuold be user or admin');
+    if (user.accessLevel === newAccessLevel) {
+      throw new Error(`This User has already accessLevel: ${newAccessLevel}`);
     }
 
-    if (user.accessLevel === upperNewAccessLevel) {
-      throw new Error(`This User has already accessLevel: ${upperNewAccessLevel}`);
-    }
-
-    user.accessLevel = upperNewAccessLevel;
+    user.accessLevel = newAccessLevel;
   }
 
   changeUserPassword(superUser: IUser, user: IUser, newPassword: string): void {
-    if (!(user instanceof User) && !(superUser instanceof User)) {
-      throw new Error(`${user} is not instanceof class ${User}`);
-    }
-
-    if (!isUserExistInAppList(superUser, this.users) && !isUserExistInAppList(user, this.users)) {
+    if (!isUserExistInAppList(superUser, this.users)) {
       throw new Error(`${superUser} does not exist in users list`);
+    }
+    if (!isUserExistInAppList(user, this.users)) {
+      throw new Error(`${user} does not exist in users list`);
     }
 
     if (!(superUser.accessLevel === 'ADMIN')) {
       throw new Error(`${superUser} must be admin lvl`);
     }
 
+    validatePassword(newPassword);
+
     if (newPassword === user.password) {
       throw new Error('New password cannot be the same as old password');
     }
 
-    validatePassword(newPassword);
     user.password = newPassword;
   }
 }

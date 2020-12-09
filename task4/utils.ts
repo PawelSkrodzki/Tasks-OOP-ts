@@ -25,7 +25,7 @@ function isKeyExistInArray(key: string, array: string[]): boolean {
   return isInvalidKey;
 }
 
-function removeFromArray<T extends IID>(array: T[], elementToRemove: T): void {
+function removeElementFromArray<T extends IID>(array: T[], elementToRemove: T): void {
   const foundElement = array.findIndex((el) => el.id === elementToRemove.id);
   if (foundElement === -1) {
     throw new Error('ElementToRemove does not exist in array, so you can not delete it');
@@ -34,4 +34,4 @@ function removeFromArray<T extends IID>(array: T[], elementToRemove: T): void {
   array.splice(foundElement, 1);
 }
 
-export { removeFromArray, isKeyExistInArray, isElementExistInArray, validateEmail };
+export { removeElementFromArray, isKeyExistInArray, isElementExistInArray, validateEmail };
